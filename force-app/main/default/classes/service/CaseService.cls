@@ -9,7 +9,10 @@ public class CaseService implements ICaseService {
         }
         return casesWithUpdatedRating;
     }
-
+    /* Assumes that cases dont get re-opened. 
+    *  In that scenario, when cases move from Closed to Open, we need to set the Account Rating with a different calculation.
+    *  Basically taking away from the Average already set. 
+    */
     public void setAverageRatingForAccount(List<Case> records){
         Set<Id> accountIds = getAccountIds(records);
         Map<Id, Integer> totalClosedCasesByAccountId = getTotalClosedCasesByAccountId(records, accountIds);
