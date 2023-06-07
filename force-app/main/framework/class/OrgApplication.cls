@@ -4,8 +4,8 @@ public class OrgApplication {
         public Object newInstance(Type serviceType) {
              if(serviceType == ICaseService.class) {
                 return CaseServiceFactory.getService();
-             } else if(serviceType == CaseService.class) {
-                return new CaseService();
+             } else if(serviceType == AccountService.class) {
+                return new AccountService();
              } else {
                 return null;
              }

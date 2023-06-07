@@ -18,7 +18,7 @@ public class CaseService implements ICaseService {
         Map<Id, Decimal> totalRatingInCurrentOperationByAccountId = getTotalRatingInCurrentOperationByAccountId(records);
         Map<Id, Decimal> newAvgRatingByAccount = doMath(totalClosedCasesByAccountId, totalClosedCasesInCurrentOperationByAccountId, oldAvgRatingByAccount, totalRatingInCurrentOperationByAccountId);
         System.debug('newAvgRatingByAccount' + newAvgRatingByAccount);
-        IAccountService accountService = (IAccountService) new OrgApplication.service().newInstance(IAccountService.class);
+        AccountService accountService = (AccountService) new OrgApplication.service().newInstance(AccountService.class);
         accountService.setNewRating(newAvgRatingByAccount);
     }
 
@@ -45,7 +45,10 @@ public class CaseService implements ICaseService {
             oldRating = oldAvgRatingByAccount.get(accountId);
             totalRatingInOperation = totalRatingInCurrentOperationByAccountId.get(accountId);
 
+            system.debug('\n ****' + totalClosedAllTime + '\t' + totalClosedNow + '\t' + totalClosedBeforeOperation + '\t' + oldRating  + '\t' + totalRatingInOperation);
+
             newAvgRating = ((oldRating * totalClosedBeforeOperation ) + totalRatingInOperation)/totalClosedAllTime;
+            system.debug('\n ****' + newAvgRating);
             newAvgRatingByAccount.put(accountId, newAvgRating);
             
         }
