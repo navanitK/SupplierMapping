@@ -15,4 +15,16 @@ public with sharing class SupplierSelector {
         system.debug('\n\n *** query' + query);
         return Database.query(query);
     }
+
+    public Integer getSuppliersCountByCity (String city, String searchKey){
+        String searchKeyword = '%'+searchKey+'%';
+        String query = 'SELECT Count() FROM Supplier__c ';        
+        
+        if(searchKey != null){
+            query = query + ' WHERE Name like : searchKeyword AND City__c = : city';
+        }else{
+            query = query + ' WHERE City__c = : city';
+        }
+        return Database.countQuery(query);
+    }
 }

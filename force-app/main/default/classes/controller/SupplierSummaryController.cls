@@ -5,13 +5,14 @@ public class SupplierSummaryController{
         try {
             Integer offset = (pageNumber - 1) * pageSize;
             system.debug('\n Result' + city + searchKey + pageSize + pageNumber);
-            List<Supplier__c> suppliers = (List<Supplier__c>);
+            
             SupplierSelector selector = (SupplierSelector) new OrgApplication.selector().newInstance(SupplierSelector.class);
+            List<Supplier__c> suppliers = (List<Supplier__c>)selector.getSuppliersByCity( city, searchKey, pageSize, pageNumber, offset);
+            system.debug('\n Result' + suppliers.size());
+            Integer totalRecords = selector.getSuppliersCountByCity(city, searchKey);
             return new SupplierDataWrapper(
-                supplierData = selector.getSuppliersByCity( city, searchKey, pageSize, pageNumber, offset),
-                
-            );
-            return ;
+                suppliers,totalRecords
+            );            
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -19,12 +20,16 @@ public class SupplierSummaryController{
 
     public class SupplierDataWrapper{
         @AuraEnabled
-        public Object supplierData;
+        public List<Supplier__c> supplierData;
         @AuraEnabled
         public Integer totalRecords;
         SupplierDataWrapper(){
-            supplierData = null;
+            supplierData = new List<Supplier__c>();
             totalRecords = 0;
+        }
+        SupplierDataWrapper(List<Supplier__c> suppliers, Integer total ){
+            supplierData = suppliers;
+            totalRecords = total;
         }
 
     }

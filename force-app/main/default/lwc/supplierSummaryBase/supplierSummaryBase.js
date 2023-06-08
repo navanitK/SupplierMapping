@@ -8,7 +8,7 @@ const FIELDS = [
 ];
 const pageSize = 5;
 const initialPageNumber = 1;
-
+const totalRecords = 0;
 const userHasAccess = true;
 
 const actions = [
@@ -25,10 +25,11 @@ const supplierColumns = [
 
 export default class SupplierSummaryBase extends LightningElement {
     
-    drillOnSupplier;
     searchLabel = 'Search Supplier Name';
     pageNumber = initialPageNumber;
     pageSize = pageSize;
+    totalRecords = totalRecords;
+
     userHasAccess = userHasAccess;
     
     @api recordId;
@@ -44,7 +45,7 @@ export default class SupplierSummaryBase extends LightningElement {
     mapMarkers = [];
 
     connectedCallback(){
-        this.totalRecords = 100;        
+                
     }
 
     @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
@@ -80,14 +81,15 @@ export default class SupplierSummaryBase extends LightningElement {
             return;
         }
         let supplierSummary = [];
-        this.summary.forEach(function (row) {
+        this.summary.supplierData.forEach(function (row) {
             var supplierItem  = { id : row.Id, name : row.Name, city : row.City__c, latitude : row.SupplierLocation__c.latitude , longitude : row.SupplierLocation__c.longitude};
-            console.log('***** supplierItem' + JSON.stringify(supplierItem));
+            
             supplierSummary.push(supplierItem);
             
         }); 
-        console.log('***** faggot' + JSON.stringify(supplierSummary));
+        
         this.supplierData = supplierSummary;
+        this.totalRecords = this.summary.totalRecords;
     }
 
     handleSearchKeyUpdated(event){
