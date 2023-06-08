@@ -1,9 +1,12 @@
 public class CaseService implements ICaseService {    
-    
+    public static final String CASE_STATUS_CLOSED = 'Closed';
+
     public List<Case> getCasesWithRatingSet(List<Case> records, Map<Id,Case> oldRecords){
         List<Case> casesWithUpdatedRating = new List<Case> ();
         for(Case currentCase : records){
             if(currentCase.CaseCSATRating__c != oldRecords.get(currentCase.Id).CaseCSATRating__c){
+                //Please not I am not validating Case Status here, because I am assuming rating change is only allowed on Case Close Screen. 
+                //I have built two validations that will make sure of this.
                 casesWithUpdatedRating.add(currentCase);
             }   
         }
