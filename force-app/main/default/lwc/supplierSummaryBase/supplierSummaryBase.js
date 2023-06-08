@@ -1,7 +1,10 @@
 import { LightningElement, api, wire, track } from 'lwc';
-
 import getSupplierSummary from '@salesforce/apex/SupplierSummaryController.getSupplierData';
 import { getRecord } from 'lightning/uiRecordApi';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import SUPPLIER_OBJECT from '@salesforce/schema/Supplier__c';	
+import MISSING_SUPPLIER_ACCESS from '@salesforce/label/c.MissingSupplierAccess';
+
 
 const FIELDS = [
     'Account.BillingCity'
@@ -25,6 +28,10 @@ const supplierColumns = [
 
 export default class SupplierSummaryBase extends LightningElement {
     
+    label = {
+        MISSING_SUPPLIER_ACCESS
+    };
+    
     searchLabel = 'Search Supplier Name';
     pageNumber = initialPageNumber;
     pageSize = pageSize;
@@ -44,9 +51,23 @@ export default class SupplierSummaryBase extends LightningElement {
 
     mapMarkers = [];
 
+    hasSupplierRead = false;
+
     connectedCallback(){
                 
     }
+
+    @wire(getObjectInfo, { objectApiName: SUPPLIER_OBJECT })
+    wiredData({data, error}){
+        console.log('*** getObjectInfo data ' + JSON.stringify(data));
+        console.log('***  getObjectInfo error ' + JSON.stringify(error));
+        if (data) {
+            this.hasSupplierRead = data.queryable;
+        } 
+        if (error) {
+            //
+        }
+     }
 
     @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
     wiredRecord({ error, data }) {

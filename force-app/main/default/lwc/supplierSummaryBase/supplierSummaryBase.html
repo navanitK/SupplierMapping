@@ -1,10 +1,10 @@
 <template>
-    <template if:false={userHasAccess}>
+    <template if:false={hasSupplierRead}>
         <div class="slds-m-vertical_medium">
-            ERROR HERE
+            {label.MISSING_SUPPLIER_ACCESS}
         </div>
     </template> 
-    <template if:true={userHasAccess}> 
+    <template if:true={hasSupplierRead}> 
         <lightning-card  title="">            
             <p class="slds-p-horizontal_small">
                 <lightning-layout vertical-align="center" class="slds-m-horizontal_x-small" multiple-rows="true">
