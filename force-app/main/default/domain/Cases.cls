@@ -3,7 +3,7 @@ public class Cases implements ITriggerHandler {
         System.System.debug('Cases Instantiated');
     }
     public void onAfterInsert(List<sObject> records){
-        
+        //This is assuming Case is not created in Closed Status, as it is not generally.
     }
 
     public void onAfterUpdate(List<sObject> records, Map<Id, sObject> oldRecords){
