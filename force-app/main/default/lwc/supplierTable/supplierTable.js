@@ -9,9 +9,9 @@ export default class supplierTable extends LightningElement {
         console.log('*** supplierColumns' +  JSON.stringify(this.supplierColumns));
     }
 
-    drillDownOnMap(event){
+    handleDrillDown(event){
         console.log('***'+JSON.stringify(event.detail));
-        this.dispatchEvent(new CustomEvent('showSupplier',{
+        this.dispatchEvent(new CustomEvent('showsupplier',{
             detail : {
                 supplierId : event.detail.row.id
             }
