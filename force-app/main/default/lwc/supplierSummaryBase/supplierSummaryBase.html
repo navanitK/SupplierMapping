@@ -14,14 +14,16 @@
                     <lightning-layout-item size="8" padding="horizontal-medium">
 
                     </lightning-layout-item>
-                    <lightning-layout-item size="12" padding="horizontal-medium">
+                    <lightning-layout-item size="6" padding="horizontal-medium">
                         <c-supplier-table 
                             supplier-columns={supplierColumns} 
                             supplier-data={supplierData}                             
                             onshowsupplier={handleShowOrders}></c-supplier-table>
                     </lightning-layout-item>
-                    <lightning-layout-item size="12" padding="horizontal-medium">
-                       MAP WILL COME HERE
+                    <lightning-layout-item size="6" padding="horizontal-medium">
+                        <lightning-map 
+                            map-markers={mapMarkers}
+                            zoom-level="10"> </lightning-map>
                     </lightning-layout-item>        
                 </lightning-layout>                
             </p>

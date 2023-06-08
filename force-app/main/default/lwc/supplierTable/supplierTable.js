@@ -13,7 +13,11 @@ export default class supplierTable extends LightningElement {
         console.log('***'+JSON.stringify(event.detail));
         this.dispatchEvent(new CustomEvent('showsupplier',{
             detail : {
-                supplierId : event.detail.row.id
+                supplierId : event.detail.row.id,
+                name : event.detail.row.name,
+                city : event.detail.row.city,
+                latitude : event.detail.row.latitude,
+                longitude : event.detail.row.longitude 
             }
         }));
     }

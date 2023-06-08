@@ -5,3 +5,7 @@ for (AggregateResult ar : groupedResults)  {
     System.debug('AccountId ' + ar.get('AccountId'));
     System.debug('Count' + ar.get('ClosedCaseCount'));
 }
+
+QueryBuilder q = new QueryBuilder();
+q.setSelect('Name').setFrom('Account');
+system.debug('\n\n**' + q.query);

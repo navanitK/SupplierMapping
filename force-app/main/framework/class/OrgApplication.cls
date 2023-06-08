@@ -16,9 +16,10 @@ public class OrgApplication {
         public Object newInstance(Type selectorType){
             if(selectorType == CaseSelector.class){
                 return new CaseSelector();
-            } else 
-            if(selectorType == AccountSelector.class){
+            } else if(selectorType == AccountSelector.class){
                 return new AccountSelector();
+            }else if(selectorType == SupplierSelector.class){
+                return new SupplierSelector();
             } else {
                 return null;
             }

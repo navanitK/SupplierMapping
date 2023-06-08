@@ -1,28 +1,31 @@
 public class SupplierSummaryController{
 
     @AuraEnabled(cacheable=true)
-    public static Object getSupplierData(String accountId, String city, String supplierName, Integer pageSize, Integer pageNumber){
+    public static Object getSupplierData(String city, String searchKey, Integer pageSize, Integer pageNumber){
         try {
             Integer offset = (pageNumber - 1) * pageSize;
-            String searchKeyword = '%'+supplierName+'%';
-            List<Supplier__c> suppliers = new List<Supplier__c> ();
-            if(supplierName != null){
+            system.debug('\n Result' + city + searchKey + pageSize + pageNumber);
+            List<Supplier__c> suppliers = (List<Supplier__c>);
+            SupplierSelector selector = (SupplierSelector) new OrgApplication.selector().newInstance(SupplierSelector.class);
+            return new SupplierDataWrapper(
+                supplierData = selector.getSuppliersByCity( city, searchKey, pageSize, pageNumber, offset),
                 
-                suppliers = Database.query(
-                ' SELECT id, Name, City__c, SupplierLocation__c ' + 
-                ' FROM Supplier__c ' + 
-                ' WHERE Name like : searchKeyword');
-            }else {
-                suppliers = Database.query(
-                ' SELECT id, Name, City__c, SupplierLocation__c ' + 
-                ' FROM Supplier__c ');
-            }
-            
-            
-            System.debug('**** suppliers' + suppliers);
-            return suppliers;
+            );
+            return ;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
+    }
+
+    public class SupplierDataWrapper{
+        @AuraEnabled
+        public Object supplierData;
+        @AuraEnabled
+        public Integer totalRecords;
+        SupplierDataWrapper(){
+            supplierData = null;
+            totalRecords = 0;
+        }
+
     }
 }
