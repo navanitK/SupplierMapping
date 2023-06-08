@@ -1,0 +1,45 @@
+<template>
+    <template if:false={userHasAccess}>
+        <div class="slds-m-vertical_medium">
+            ERROR HERE
+        </div>
+    </template> 
+    <template if:true={userHasAccess}> 
+        <lightning-card  title="">            
+            <p class="slds-p-horizontal_small">
+                <lightning-layout vertical-align="center" class="slds-m-horizontal_x-small" multiple-rows="true">
+                    <lightning-layout-item size="4" padding="horizontal-medium">
+                        <c-search search-label={searchLabel} onsearchkeyupdated={handleSearchKeyUpdated}></c-search>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="8" padding="horizontal-medium">
+
+                    </lightning-layout-item>
+                    <lightning-layout-item size="6" padding="horizontal-medium">
+                        <c-supplier-table 
+                            supplier-columns={supplierColumns} 
+                            supplier-data={supplierData}                             
+                            onshowsupplier={handleShowOrders}></c-supplier-table>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="6" padding="horizontal-medium">
+                        <lightning-map 
+                            map-markers={mapMarkers}
+                            zoom-level="10"> </lightning-map>
+                    </lightning-layout-item>        
+                </lightning-layout>                
+            </p>
+            <p slot="footer" style="text-align:center;">
+                <lightning-layout vertical-align="center" class="slds-m-horizontal_x-small">
+                    <lightning-layout-item size="1" padding="horizontal-medium"></lightning-layout-item> 
+                    <lightning-layout-item size="7" padding="horizontal-medium">
+                        <c-paginator 
+                            page-number={pageNumber} 
+                            page-size={pageSize} 
+                            total-records={totalRecords} 
+                            onprevious={handleOnPrevious}
+                            onnext={handleOnNext}></c-paginator></lightning-layout-item>
+                    <lightning-layout-item size="4" padding="horizontal-medium"></lightning-layout-item>
+                </lightning-layout>                
+            </p>
+        </lightning-card>
+    </template>   
+</template>

@@ -4,8 +4,8 @@ public class OrgApplication {
         public Object newInstance(Type serviceType) {
              if(serviceType == ICaseService.class) {
                 return CaseServiceFactory.getService();
-             } else if(serviceType == CaseService.class) {
-                return new CaseService();
+             } else if(serviceType == AccountService.class) {
+                return new AccountService();
              } else {
                 return null;
              }
@@ -16,9 +16,10 @@ public class OrgApplication {
         public Object newInstance(Type selectorType){
             if(selectorType == CaseSelector.class){
                 return new CaseSelector();
-            } else 
-            if(selectorType == AccountSelector.class){
+            } else if(selectorType == AccountSelector.class){
                 return new AccountSelector();
+            }else if(selectorType == SupplierSelector.class){
+                return new SupplierSelector();
             } else {
                 return null;
             }

@@ -9,7 +9,10 @@ public class CaseService implements ICaseService {
         }
         return casesWithUpdatedRating;
     }
-
+    /* Assumes that cases dont get re-opened. 
+    *  In that scenario, when cases move from Closed to Open, we need to set the Account Rating with a different calculation.
+    *  Basically taking away from the Average already set. 
+    */
     public void setAverageRatingForAccount(List<Case> records){
         Set<Id> accountIds = getAccountIds(records);
         Map<Id, Integer> totalClosedCasesByAccountId = getTotalClosedCasesByAccountId(records, accountIds);
@@ -18,7 +21,7 @@ public class CaseService implements ICaseService {
         Map<Id, Decimal> totalRatingInCurrentOperationByAccountId = getTotalRatingInCurrentOperationByAccountId(records);
         Map<Id, Decimal> newAvgRatingByAccount = doMath(totalClosedCasesByAccountId, totalClosedCasesInCurrentOperationByAccountId, oldAvgRatingByAccount, totalRatingInCurrentOperationByAccountId);
         System.debug('newAvgRatingByAccount' + newAvgRatingByAccount);
-        IAccountService accountService = (IAccountService) new OrgApplication.service().newInstance(IAccountService.class);
+        AccountService accountService = (AccountService) new OrgApplication.service().newInstance(AccountService.class);
         accountService.setNewRating(newAvgRatingByAccount);
     }
 
@@ -45,7 +48,10 @@ public class CaseService implements ICaseService {
             oldRating = oldAvgRatingByAccount.get(accountId);
             totalRatingInOperation = totalRatingInCurrentOperationByAccountId.get(accountId);
 
+            system.debug('\n ****' + totalClosedAllTime + '\t' + totalClosedNow + '\t' + totalClosedBeforeOperation + '\t' + oldRating  + '\t' + totalRatingInOperation);
+
             newAvgRating = ((oldRating * totalClosedBeforeOperation ) + totalRatingInOperation)/totalClosedAllTime;
+            system.debug('\n ****' + newAvgRating);
             newAvgRatingByAccount.put(accountId, newAvgRating);
             
         }

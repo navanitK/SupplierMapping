@@ -1,0 +1,9 @@
+<template>    
+    <lightning-datatable
+            key-field="id"
+            columns={supplierColumns}
+            data={supplierData}
+            hide-checkbox-column            
+            onrowaction={handleDrillDown}>
+    </lightning-datatable>         
+</template>
