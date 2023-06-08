@@ -52,6 +52,7 @@ export default class SupplierSummaryBase extends LightningElement {
     mapMarkers = [];
 
     hasSupplierRead = false;
+    noRecordsFound = true;
 
     connectedCallback(){
                 
@@ -71,7 +72,13 @@ export default class SupplierSummaryBase extends LightningElement {
 
     @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
     wiredRecord({ error, data }) {
-        this.city = 'Amstelveen';
+        if (data) {
+            this.city = data.fields.BillingCity.value;                                
+            this.error = undefined;            
+        } else if (error) {
+            this.error = error;
+            this.city = undefined;
+        }        
         console.log('*** data ' + JSON.stringify(data));
         console.log('*** error ' + JSON.stringify(error));
     }
@@ -111,6 +118,9 @@ export default class SupplierSummaryBase extends LightningElement {
         
         this.supplierData = supplierSummary;
         this.totalRecords = this.summary.totalRecords;
+        if(this.summary.totalRecords === 0){
+            this.noRecordsFound = true;
+        }
     }
 
     handleSearchKeyUpdated(event){
